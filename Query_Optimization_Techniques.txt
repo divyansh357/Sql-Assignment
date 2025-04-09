@@ -1,0 +1,60 @@
+
+Query Optimization Techniques in DBMS
+=====================================
+
+1. Indexing
+-----------
+- Use indexes on columns used in WHERE, JOIN, ORDER BY, and GROUP BY.
+- Types of indexes: B-Tree, Bitmap, Hash indexes.
+- Avoid indexing columns with low selectivity (e.g., gender).
+
+2. Query Rewriting
+------------------
+- Transforming the query into a more efficient equivalent form.
+- Example:
+  SELECT * FROM employees WHERE salary > 50000;
+  Can be optimized to select only required columns instead of *.
+
+3. Use of Joins Instead of Subqueries
+-------------------------------------
+- Joins are generally faster than correlated subqueries.
+- Replace:
+  SELECT name FROM employees WHERE dept_id IN (SELECT id FROM departments WHERE location = 'NY');
+  With:
+  SELECT e.name FROM employees e JOIN departments d ON e.dept_id = d.id WHERE d.location = 'NY';
+
+4. Avoiding SELECT *
+--------------------
+- Always specify needed columns to reduce I/O.
+  SELECT id, name FROM employees; -- Instead of SELECT *
+
+5. Use of EXISTS vs IN
+----------------------
+- EXISTS is often more efficient than IN for correlated subqueries:
+  SELECT name FROM employees e WHERE EXISTS (
+    SELECT 1 FROM departments d WHERE d.id = e.dept_id AND d.location = 'NY'
+  );
+
+6. Materialized Views
+---------------------
+- Precompute and store the result of complex queries.
+- Reduces recomputation for expensive queries.
+
+7. Denormalization
+------------------
+- Reduce joins by storing redundant data in tables.
+- Improves read performance (at the cost of some write/update complexity).
+
+8. Query Caching
+----------------
+- Cache the result of frequent queries.
+- Useful in read-heavy applications.
+
+9. Using LIMIT or TOP
+---------------------
+- Retrieve only necessary records, especially in pagination.
+  SELECT * FROM employees LIMIT 10;
+
+10. Analyzing Query Execution Plan
+----------------------------------
+- Use tools like EXPLAIN (MySQL/PostgreSQL), EXPLAIN PLAN (Oracle) to understand how the DB engine runs your query and identify bottlenecks.

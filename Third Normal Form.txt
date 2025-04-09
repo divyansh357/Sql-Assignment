@@ -1,0 +1,6 @@
+Third Normal Form
+=====================================
+Third normal form (3NF) is a stage of database normalization that aims to eliminate transitive dependencies, ensuring that non-key attributes depend only on the primary key, not on other non-key attributes.
+
+Builds upon 2NF by eliminating transitive dependencies. This means that no non-key attribute should depend on another non-key attribute. 
+
